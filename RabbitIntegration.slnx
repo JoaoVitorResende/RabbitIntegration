@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/RabbitIntegrationApi/RabbitIntegrationApi.csproj" />
+  </Folder>
+  <Folder Name="/src/NewFolder1/" />
+</Solution>
