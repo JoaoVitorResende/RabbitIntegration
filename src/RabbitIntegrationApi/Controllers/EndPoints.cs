@@ -9,8 +9,10 @@ namespace RabbitIntegrationApi.Controllers
     [ApiController]
     public class EndPoints : ControllerBase
     {
-        //run docker first docker run -d --name aula-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+        //run docker first
+        //docker run -d --name aula-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
         [HttpPost]
+        [ProducesResponseType(typeof(RelatorioSolicitadoEvent), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetRelatorios(string name, IBus bus)
         {
 
@@ -32,6 +34,7 @@ namespace RabbitIntegrationApi.Controllers
             return Ok(solicitacao);
         }
         [HttpGet]
+        [ProducesResponseType(typeof(RelatorioSolicitadoEvent), StatusCodes.Status200OK)]
         public IActionResult GetRelatorios()
         {
             return Ok(Lista.Relatorios);

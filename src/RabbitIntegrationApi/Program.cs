@@ -9,8 +9,10 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 //servico para iniciar o rabbit
 builder.Services.AddRabbitMQServices();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

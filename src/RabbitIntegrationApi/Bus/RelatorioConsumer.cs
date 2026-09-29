@@ -16,7 +16,7 @@ namespace RabbitIntegrationApi.Bus
 
             _logger.LogInformation("Processando relatorio ID{Id} Nome:{Nome}", message.Id, message.name);
 
-            await Task.Delay(1000);
+            await Task.Delay(5000);
 
             var relatorio = Lista.Relatorios.FirstOrDefault(item => item.Id == message.Id);
 
