@@ -6,31 +6,34 @@ namespace RabbitIntegrationApi.Bus
     public class RelatorioConsumer : IConsumer<RelatorioSolicitadoEvent>
     {
         private readonly ILogger<RelatorioConsumer> _logger;
-        public RelatorioConsumer(ILogger<RelatorioConsumer> logg)
+        private readonly AppDbContext _db;
+
+        public RelatorioConsumer(ILogger<RelatorioConsumer> logger, AppDbContext db)
         {
-            _logger = logg;
+            _logger = logger;
+            _db = db;
         }
+
         public async Task Consume(ConsumeContext<RelatorioSolicitadoEvent> context)
         {
             var message = context.Message;
+            _logger.LogInformation("Processando relatorio ID {Id} Nome: {Nome}", message.Id, message.name);
 
-            _logger.LogInformation("Processando relatorio ID{Id} Nome:{Nome}", message.Id, message.name);
+            await Task.Delay(5000, context.CancellationToken);
 
-            await Task.Delay(5000);
+            var relatorio = await _db.Relatorios.FindAsync(new object[] { message.Id }, context.CancellationToken);
 
-            var relatorio = Lista.Relatorios.FirstOrDefault(item => item.Id == message.Id);
-
-            if(relatorio != null)
+            if (relatorio is null)
             {
-                relatorio.status = "completado";
-                relatorio.processedTime = DateTime.Now;
-            }
-            else
-            {
-                Console.WriteLine("nulo");
+                _logger.LogWarning("Relatorio {Id} nao encontrado", message.Id);
+                return;
             }
 
-            _logger.LogInformation("Relatorio Processado relatorio ID{Id} Nome:{Nome}", message.Id, message.name);
+            relatorio.status = "completado";
+            relatorio.processedTime = DateTime.UtcNow;
+            await _db.SaveChangesAsync(context.CancellationToken);
+
+            _logger.LogInformation("Relatorio processado ID {Id}", message.Id);
         }
     }
 }

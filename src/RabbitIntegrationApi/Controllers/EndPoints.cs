@@ -1,43 +1,27 @@
-﻿using MassTransit;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using RabbitIntegrationApi.relatorios;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using RabbitIntegrationApi.Application.Register;
 
-namespace RabbitIntegrationApi.Controllers
+[ApiController]
+[Route("api/[controller]")]
+public class EndPoints : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class EndPoints : ControllerBase
+    //run docker first
+    //docker run -d --name aula-postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -v pgdata:/var/lib/postgresql/data postgres:16
+    //docker run -d --name aula-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+    //and after if fisrt time
+    //dotnet ef migrations add Inicial
+    //dotnet ef database update
+    //docker compose up --build
+    [HttpPost]
+    public async Task<IActionResult> PostRelatorios(string name, [FromServices] IRegisterReports register)
     {
-        //run docker first
-        //docker run -d --name aula-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
-        [HttpPost]
-        [ProducesResponseType(typeof(RelatorioSolicitadoEvent), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetRelatorios(string name, IBus bus)
-        {
+        return Ok(await register.Execute(name));
+    }
 
-            var solicitacao = new SolicitacaoRelatorio()
-            {
-                Id = Guid.NewGuid(),
-                nome = name,
-                status = "pendente",
-                processedTime = null
-            };
-
-
-            Lista.Relatorios.Add(solicitacao);
-
-            var eventRequest = new RelatorioSolicitadoEvent(solicitacao.Id, solicitacao.nome);
-
-            await bus.Publish(eventRequest);
-
-            return Ok(solicitacao);
-        }
-        [HttpGet]
-        [ProducesResponseType(typeof(RelatorioSolicitadoEvent), StatusCodes.Status200OK)]
-        public IActionResult GetRelatorios()
-        {
-            return Ok(Lista.Relatorios);
-        }
+    [HttpGet]
+    public async Task<IActionResult> GetRelatorios([FromServices] AppDbContext db)
+    {
+        return Ok(await db.Relatorios.AsNoTracking().ToListAsync());
     }
 }

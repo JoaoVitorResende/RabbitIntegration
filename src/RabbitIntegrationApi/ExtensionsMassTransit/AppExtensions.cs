@@ -5,17 +5,17 @@ namespace RabbitIntegrationApi.extensions
 {
     public static class AppExtensions
     {
-        public static void AddRabbitMQServices(this IServiceCollection services)
+        public static void AddRabbitMQServices(this IServiceCollection services, IConfiguration config)
         {
             services.AddMassTransit(busConfigurator =>
             {
                 busConfigurator.AddConsumer<RelatorioConsumer>();
                 busConfigurator.UsingRabbitMq((ctx, cfg) =>
                 {
-                    cfg.Host(new Uri("amqp://localhost:5672"), host =>
+                    cfg.Host(new Uri(config["RabbitMQ:Host"]!), host =>
                     {
-                        host.Username("guest");
-                        host.Password("guest");
+                        host.Username(config["RabbitMQ:Username"]!);
+                        host.Password(config["RabbitMQ:Password"]!);
                     });
                     cfg.ConfigureEndpoints(ctx);
                 });
