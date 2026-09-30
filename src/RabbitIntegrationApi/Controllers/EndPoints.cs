@@ -13,6 +13,7 @@ public class EndPoints : ControllerBase
     //dotnet ef migrations add Inicial
     //dotnet ef database update
     //docker compose up --build
+    //http://localhost:8080/swagger
     [HttpPost]
     public async Task<IActionResult> PostRelatorios(string name, [FromServices] IRegisterReports register)
     {
