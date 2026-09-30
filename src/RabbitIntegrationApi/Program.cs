@@ -20,8 +20,13 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 //DI
 builder.Services.AddApplication();
+// cors for the front end
+builder.Services.AddCors(o => o.AddDefaultPolicy(p =>
+    p.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod()));
 
 var app = builder.Build();
+//using cors
+app.UseCors();
 
 using (var scope = app.Services.CreateScope())
 {

@@ -2,7 +2,6 @@
   <Folder Name="/src/">
     <Project Path="src/RabbitIntegrationApi/RabbitIntegrationApi.csproj" />
   </Folder>
-  <Folder Name="/src/NewFolder1/" />
   <Folder Name="/test/">
     <Project Path="test/RabbitTest/RabbitTest.csproj" Id="f8dee202-3742-4be4-ab97-22b1ea44bc23" />
   </Folder>
