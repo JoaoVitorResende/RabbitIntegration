@@ -83,3 +83,22 @@ src/RabbitIntegrationApi/
 test/RabbitTest/   unit tests
 docker-compose.yml
 ```
+
+aws env
+
+install 
+
+winget install Amazon.AWSCLI --source winget
+
+$env:Path += ";C:\Program Files\Amazon\AWSCLIV2"
+aws --version
+
+$env:AWS_ENDPOINT_URL="http://localhost:4566"
+$env:AWS_ACCESS_KEY_ID="test"
+$env:AWS_SECRET_ACCESS_KEY="test"
+$env:AWS_DEFAULT_REGION="us-east-1"
+
+aws s3 mb s3://teste
+aws s3 ls
+
+should return teste
