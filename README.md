@@ -255,16 +255,26 @@ aws s3 ls
 
 ### C3. Create the ECR repository
 
+If the repository does not exist yet:
+
 ```powershell
-$repo = aws ecr create-repository --repository-name report-queue-api --query repository.repositoryUri --output text
+$repo = aws ecr create-repository `
+  --repository-name report-queue-api `
+  --query repository.repositoryUri `
+  --output text
+
 $repo
+
+$repo = aws ecr describe-repositories `
+  --repository-names report-queue-api `
+  --query "repositories[0].repositoryUri" `
+  --output text
+
+$repo
+
+000000000000.dkr.ecr.us-east-1.localhost:4566/report-queue-api
 ```
 
-If you opened a new window and the repository already exists, recover the address:
-
-```powershell
-$repo = aws ecr describe-repositories --repository-names report-queue-api --query "repositories[0].repositoryUri" --output text
-```
 
 ### C4. Build and push the image
 
