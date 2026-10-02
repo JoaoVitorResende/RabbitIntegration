@@ -83,9 +83,6 @@ src/RabbitIntegrationApi/
 test/RabbitTest/   unit tests
 docker-compose.yml
 ```
-
-## aws env
-
 # Running on AWS locally with Floci (ECR + ECS)
 
 This guide runs the API as an ECS task on [Floci](https://github.com/floci-io/floci), a local AWS emulator. No AWS account is needed. The flow is the same as on real AWS: push the image to ECR, register a task definition, and run it on an ECS cluster.
