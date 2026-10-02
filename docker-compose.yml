@@ -16,7 +16,7 @@ services:
   rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - "15672:15672"
+      - "127.0.0.1:15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBIT_PASS}
@@ -27,9 +27,10 @@ services:
       retries: 10
 
   api:
+    profiles: ["local"]
     build: ./src/RabbitIntegrationApi
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8080:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       RabbitMQ__Host: amqp://rabbitmq:5672
@@ -41,6 +42,16 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+
+  floci:
+    image: floci/floci:latest
+    ports:
+      - "127.0.0.1:4566:4566"
+    environment:
+      FLOCI_HOSTNAME: floci
+      FLOCI_SERVICES_ECS_DOCKER_NETWORK: rabbitintegration_default
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
   pgdata:
