@@ -7,8 +7,8 @@ using RabbitIntegrationApi.Application.Register;
 public class EndPoints : ControllerBase
 {
     //run docker first
-    //docker run -d --name aula-postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -v pgdata:/var/lib/postgresql/data postgres:16
-    //docker run -d --name aula-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+    //docker run -d --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -v pgdata:/var/lib/postgresql/data postgres:16
+    //docker run -d --name rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
     //and after if fisrt time
     //dotnet ef migrations add Inicial
     //dotnet ef database update
