@@ -100,7 +100,7 @@ It is written to be followed from scratch, on a machine that has never run the p
 
 ## Part A: machine setup (once per machine)
 
-### A1. Install the tools
+### A1. Install the tools.
 
 | Tool | How |
 |------|-----|
